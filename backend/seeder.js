@@ -1,30 +1,41 @@
 import mongoose from 'mongoose'
+import connectDB from './config/db.js'
 import dotenv from 'dotenv'
 import colors from 'colors'
 import users from './data/users.js'
-import role from './data/roles.js'
+import roles from './data/roles.js'
 import category from './data/categories.js'
-import subCategories from './data/subCategories.js'
+import products from './data/products.js'
 import User from './models/credentialModel.js'
 import Role from './models/roleModel.js'
 import Category from './models/categoryModel.js'
 import SubCategory from './models/subCategoryModel.js'
+import Product from './models/productModel.js'
 
 dotenv.config()
 
-connectDB()
-
 const importData = async () => {
 	try {
+		await connectDB()
+		await Product.deleteMany()
 		await Category.deleteMany()
-		await SubCategory.deleteMany()
 		await Role.deleteMany()
+		await SubCategory.deleteMany()
 		await User.deleteMany()
 
 		await Category.insertMany(category)
-		await SubCategory.insertMany(subCategories)
-		await Role.insertMany(role)
+		await Role.insertMany(roles)
 		await User.insertMany(users)
+
+		const createdUsers = await User.insertMany(users)
+
+		const adminUser = createdUsers[0]._id
+
+		const sampleProducts = products.map(product => {
+			return { ...product, user: adminUser }
+		})
+		await Product.insertMany(sampleProducts)
+
 		console.log(`Data Imported!`.green.inverse)
 		process.exit()
 	} catch (error) {
@@ -35,6 +46,8 @@ const importData = async () => {
 
 const destroyData = async () => {
 	try {
+		await connectDB()
+		await Product.deleteMany()
 		await Category.deleteMany()
 		await SubCategory.deleteMany()
 		await Role.deleteMany()

@@ -1,5 +1,5 @@
-import bcrypt from 'bcryptjs'
 import mongoose from 'mongoose'
+import bcrypt from 'bcryptjs'
 
 const users = [
 	{
@@ -8,8 +8,9 @@ const users = [
 		password: bcrypt.hashSync('password', 10),
 		role: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: Role,
+			ref: 'Role',
 		},
+		cellphoneNumber: 123456,
 	},
 	{
 		name: 'Grizzly Bear',
@@ -17,8 +18,9 @@ const users = [
 		password: bcrypt.hashSync('password', 10),
 		role: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: Role,
+			ref: 'Role',
 		},
+		cellphoneNumber: 123456,
 	},
 	{
 		name: 'Panda Bear',
@@ -26,8 +28,9 @@ const users = [
 		password: bcrypt.hashSync('password', 10),
 		role: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: Role,
+			ref: 'Role',
 		},
+		cellphoneNumber: 123456,
 	},
 	{
 		name: 'User test',
@@ -35,8 +38,9 @@ const users = [
 		password: bcrypt.hashSync('password', 10),
 		role: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: Role,
+			ref: 'Role',
 		},
+		cellphoneNumber: 123456,
 	},
 ]
 
