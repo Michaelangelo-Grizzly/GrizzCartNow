@@ -75,10 +75,13 @@ const categories = [
 		name: `Digital Goods & Vouchers`,
 	},
 	{
-		name: `Pet Care`,
+		name: `Accessories`,
 	},
 	{
 		name: `Gadgets`,
+	},
+	{
+		name: `Camera`,
 	},
 ]
 

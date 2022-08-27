@@ -2,12 +2,8 @@ import mongoose from 'mongoose'
 
 const subCategories = [
 	{
-		name: `Sub Audio`,
-		Category: {
-			type: mongoose.Schema.Types.ObjectId._id,
-			ref: 'Category',
-			required: true,
-		},
+		name: `Sub Accessories`,
+		category: 'Accessories',
 	},
 	// {
 	// 	name: `Sub Men's Apparel`,

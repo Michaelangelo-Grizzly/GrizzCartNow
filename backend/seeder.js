@@ -24,10 +24,18 @@ const importData = async () => {
 		await User.deleteMany()
 
 		await Category.insertMany(category)
-		await Role.insertMany(roles)
-		await User.insertMany(users)
 
-		const createdUsers = await User.insertMany(users)
+		const createdRoles = await Role.insertMany(roles)
+
+		const roleAccess = createdRoles[0].id
+
+		const userAccess = users.map(user => {
+			return { ...user, role: roleAccess }
+		})
+
+		console.log('Created User', userAccess)
+
+		const createdUsers = await User.insertMany(userAccess)
 
 		const adminUser = createdUsers[0]._id
 

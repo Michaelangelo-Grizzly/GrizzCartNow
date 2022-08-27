@@ -21,12 +21,12 @@ const credentialSchema = mongoose.Schema({
 		required: true,
 	},
 	role: {
-		type: Number,
-		required: true,
-		default: 3,
+		type: mongoose.Schema.Types.String,
+		requied: true,
+		ref: 'Role',
 	},
 	gender: {
-		type: Number,
+		type: String,
 		enum: ['Male', 'Female', 'Other'],
 	},
 	profilePicture: {

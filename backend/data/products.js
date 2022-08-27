@@ -6,11 +6,8 @@ const products = [
 		description:
 			'Bluetooth technology lets you connect it with compatible devices wireless.',
 		brand: 'Apple',
-		category: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Category',
-		},
-		subCategory: 'Sub Gadgets',
+		category: 'Accessories',
+		subcategory: 'Sub Accessories',
 		price: 89.99,
 		countInStock: 2,
 		rating: 4.5,
@@ -21,11 +18,8 @@ const products = [
 		image: '/images/phone.jpg',
 		description: 'Introducing the iPhone 12 Pro.',
 		brand: 'Apple',
-		category: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Category',
-		},
-		subCategory: 'Sub Gadgets',
+		category: 'Gadgets',
+		subcategory: 'Sub Gadgets',
 		price: 89.99,
 		countInStock: 2,
 		rating: 4.5,
@@ -37,11 +31,8 @@ const products = [
 		description:
 			'Characterized by versatile imaging specs, the Canon EOS 80D',
 		brand: 'Sony',
-		category: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Category',
-		},
-		subCategory: 'Sub Gadgets',
+		category: 'Camera',
+		subcategory: 'Sub Camera',
 		price: 89.99,
 		countInStock: 2,
 		rating: 4.5,
