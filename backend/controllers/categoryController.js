@@ -3,7 +3,7 @@ import Category from '../models/categoryModel.js'
 
 // @description Fetch all categories
 // @route Get /api/categories
-// @access Private
+// @access Private/Super Admin || Admin
 const getCategories = asyncHandler(async (req, res) => {
 	const categories = await Category.find({})
 	res.json(categories)
@@ -11,7 +11,7 @@ const getCategories = asyncHandler(async (req, res) => {
 
 // @description Fetch single category
 // @route Get /api/categories/:id
-// @access Private
+// @access Private/Super Admin || Admin
 const getCategory = asyncHandler(async (req, res) => {
 	const category = await Category.findById(req.params.id)
 
@@ -25,7 +25,7 @@ const getCategory = asyncHandler(async (req, res) => {
 
 // @description Create a product
 // @route Post /api/categories
-// @access Private
+// @access Private/Super Admin || Admin
 const createCategory = asyncHandler(async (req, res) => {
 	const { name } = req.body
 
@@ -53,7 +53,7 @@ const createCategory = asyncHandler(async (req, res) => {
 
 // @description Update a product
 // @route Post /api/categories
-// @access Private
+// @access Private/Super Admin || Admin
 const updateCategory = asyncHandler(async (req, res) => {
 	const category = await Category.findById(req.params.id)
 
@@ -73,7 +73,7 @@ const updateCategory = asyncHandler(async (req, res) => {
 
 // @description Delete a category
 // @route Post /api/categories
-// @access Private
+// @access Private/Super Admin || Admin
 const deleteCategory = asyncHandler(async (req, res) => {
 	const category = await Category.findById(req.params.id)
 
