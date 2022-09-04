@@ -4,6 +4,7 @@ import connectDB from './config/db.js'
 import colors from 'colors'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import categoryRoutes from './routes/categoryRoutes.js'
+import subCategoryRoutes from './routes/subCategoryRoutes.js'
 
 dotenv.config()
 
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/categories', categoryRoutes)
+app.use('/api/subcategories', subCategoryRoutes)
 
 app.use(notFound)
 
