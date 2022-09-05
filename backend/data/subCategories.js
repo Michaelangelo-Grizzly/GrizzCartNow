@@ -2,8 +2,8 @@ import mongoose from 'mongoose'
 
 const subCategories = [
 	{
-		name: `Sub Accessories`,
-		category: 'Accessories',
+		subcategoryname: `Sub Accessories`,
+		categoryname: 'Accessories',
 	},
 	// {
 	// 	name: `Sub Men's Apparel`,

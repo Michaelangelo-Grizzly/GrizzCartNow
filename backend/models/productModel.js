@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const reviewSchema = mongoose.Schema(
 	{
 		name: {
-			type: String,
+			type: mongoose.Schema.Types.ObjectId,
 			required: true,
 		},
 
@@ -38,12 +38,12 @@ const productSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		category: {
+		categoryname: {
 			type: mongoose.Schema.Types.String,
 			required: true,
 			ref: 'Category',
 		},
-		subcategory: {
+		subcategoryname: {
 			type: mongoose.Schema.Types.String,
 			ref: 'SubCategory',
 		},

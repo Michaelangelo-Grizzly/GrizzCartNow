@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 import colors from 'colors'
 import users from './data/users.js'
 import roles from './data/roles.js'
-import category from './data/categories.js'
+import categories from './data/categories.js'
 import products from './data/products.js'
 import User from './models/credentialModel.js'
 import Role from './models/roleModel.js'
@@ -23,7 +23,7 @@ const importData = async () => {
 		await SubCategory.deleteMany()
 		await User.deleteMany()
 
-		await Category.insertMany(category)
+		await Category.insertMany(categories)
 
 		const createdRoles = await Role.insertMany(roles)
 

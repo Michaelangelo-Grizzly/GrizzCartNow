@@ -1,12 +1,11 @@
 import mongoose from 'mongoose'
 
 const subCategorySchema = mongoose.Schema({
-	name: {
+	subcategoryname: {
 		type: String,
 		required: true,
-		unique: true,
 	},
-	category: {
+	categoryname: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Category',
 		required: true,
