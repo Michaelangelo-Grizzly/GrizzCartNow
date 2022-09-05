@@ -139,7 +139,7 @@ const createSubCategory = asyncHandler(async (req, res) => {
 		})
 	} else {
 		res.status(400)
-		throw new Error('Invalid SubCategory data')
+		throw new Error('Invalid SubCategory')
 	}
 })
 
