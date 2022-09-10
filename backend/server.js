@@ -5,6 +5,7 @@ import colors from 'colors'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import categoryRoutes from './routes/categoryRoutes.js'
 import roleRoutes from './routes/roleRoutes.js'
+import userRoutes from './routes/userRoutes.js'
 dotenv.config()
 
 connectDB()
@@ -27,6 +28,7 @@ app.use('/api/categories', categoryRoutes)
 app.use('/api/category', categoryRoutes)
 app.use('/api/subcategories', categoryRoutes)
 app.use('/api/roles', roleRoutes)
+app.use('/api/users', userRoutes)
 
 app.use(notFound)
 

@@ -1,3 +1,4 @@
+import { json } from 'express'
 import asyncHandler from 'express-async-handler'
 import Category from '../models/categoryModel.js'
 import SubCategory from '../models/subCategoryModel.js'
@@ -30,7 +31,9 @@ const getCategory = asyncHandler(async (req, res) => {
 const createCategory = asyncHandler(async (req, res) => {
 	const { categoryname } = req.body
 
-	const categoryExists = await Category.findOne({ categoryname })
+	const categoryExists = await Category.findOne({ categoryname }).populate(
+		'subcategory'
+	)
 
 	if (categoryExists) {
 		res.status(400)
@@ -93,7 +96,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
 // @route Get /api/subcategories
 // @access Private/Super Admin || Admin
 const getSubCategories = asyncHandler(async (req, res) => {
-	const subCategories = await SubCategory.find({})
+	const subCategories = await SubCategory.find({}).populate('categoryname')
 	res.json(subCategories)
 })
 
@@ -117,7 +120,11 @@ const getSubCategory = asyncHandler(async (req, res) => {
 const createSubCategory = asyncHandler(async (req, res) => {
 	const { subcategoryname, categoryname } = req.body
 
-	const subCategoryExists = await SubCategory.findOne({ subcategoryname })
+	const subCategoryExists = await SubCategory.findOne({
+		subcategoryname,
+	}).populate('categoryname')
+
+	const name = await Category.findOne({})
 
 	if (subCategoryExists) {
 		res.status(400)
@@ -129,11 +136,15 @@ const createSubCategory = asyncHandler(async (req, res) => {
 		subcategoryname,
 	})
 
+	return res.json(subCategory)
+	// return res.json(subCategory)
 	const createdSubCategory = await subCategory.save()
+	return res.json(createdSubCategory)
 
 	if (createdSubCategory) {
 		res.status(201).json({
-			_id: createdSubCategory.id,
+			_id: createdSubCategory._id,
+			categoryname: createdSubCategory,
 			subcategoryname: createdSubCategory.subcategoryname,
 		})
 	} else {
