@@ -1,4 +1,3 @@
-import mongoose from 'mongoose'
 import asyncHandler from 'express-async-handler'
 import Category from '../models/categoryModel.js'
 import SubCategory from '../models/subCategoryModel.js'
