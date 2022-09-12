@@ -29,7 +29,7 @@ const importData = async () => {
 		const subCategory = createdCategory[0].id
 
 		const subCategoryData = subcategories.map(subcategory => {
-			return { ...subcategory, categoryid: subCategory }
+			return { ...subcategory, category: subCategory }
 		})
 
 		await SubCategory.insertMany(subCategoryData)

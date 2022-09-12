@@ -30,9 +30,7 @@ const getCategory = asyncHandler(async (req, res) => {
 const createCategory = asyncHandler(async (req, res) => {
 	const { name } = req.body
 
-	const categoryExists = await Category.findOne({ name }).populate(
-		'subcategory'
-	)
+	const categoryExists = await Category.findOne({ name }).populate('name')
 
 	if (categoryExists) {
 		res.status(400)
@@ -95,7 +93,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
 // @route Get /api/subcategories
 // @access Private/Super Admin || Admin
 const getSubCategories = asyncHandler(async (req, res) => {
-	const subCategories = await SubCategory.find({}).populate('categoryname')
+	const subCategories = await SubCategory.find({}).populate('categoryid')
 	res.json(subCategories)
 })
 
@@ -117,7 +115,7 @@ const getSubCategory = asyncHandler(async (req, res) => {
 // @route Post /api/categories
 // @access Private/Super Admin || Admin
 const createSubCategory = asyncHandler(async (req, res) => {
-	const { subname, categoryid } = req.body
+	const { subname, category } = req.body
 
 	const subCategoryExists = await SubCategory.findOne({
 		subname,
@@ -129,12 +127,12 @@ const createSubCategory = asyncHandler(async (req, res) => {
 	}
 
 	const id = await Category.findOne({
-		_id: categoryid,
+		_id: category,
 	}).exec()
 
 	const subCategory = new SubCategory({
-		categoryname: id,
-		subcategoryname,
+		category: id,
+		subname,
 	})
 
 	const createdSubCategory = await subCategory.save()
@@ -142,8 +140,8 @@ const createSubCategory = asyncHandler(async (req, res) => {
 	if (createdSubCategory) {
 		res.status(201).json({
 			_id: createdSubCategory._id,
-			categoryname: createdSubCategory,
-			subcategoryname: createdSubCategory.subcategoryname,
+			category: createdSubCategory.category.name,
+			subname: createdSubCategory.subname,
 		})
 	} else {
 		res.status(400)
