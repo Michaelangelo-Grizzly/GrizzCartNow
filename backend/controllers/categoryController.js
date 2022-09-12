@@ -93,7 +93,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
 // @route Get /api/subcategories
 // @access Private/Super Admin || Admin
 const getSubCategories = asyncHandler(async (req, res) => {
-	const subCategories = await SubCategory.find({}).populate('categoryid')
+	const subCategories = await SubCategory.find({}).populate('category')
 	res.json(subCategories)
 })
 
@@ -101,7 +101,9 @@ const getSubCategories = asyncHandler(async (req, res) => {
 // @route Get /api/categories/:id
 // @access Private/Super Admin || Admin
 const getSubCategory = asyncHandler(async (req, res) => {
-	const subcategory = await SubCategory.findById(req.params.id)
+	const subcategory = await SubCategory.findById(req.params.id).populate(
+		'category'
+	)
 
 	if (subcategory) {
 		res.json(subcategory)
@@ -153,15 +155,17 @@ const createSubCategory = asyncHandler(async (req, res) => {
 // @route Post /api/categories
 // @access Private/Super Admin || Admin
 const updateSubCategory = asyncHandler(async (req, res) => {
-	const { subcategoryname, categoryname } = req.body
+	const { subname, category } = req.body
 
 	const subCategoryFind = await SubCategory.findById(req.params.id)
 
+	const id = await Category.findOne({
+		_id: category,
+	}).exec()
+
 	if (subCategoryFind) {
-		subCategoryFind.categoryname =
-			categoryname || subCategoryFind.categoryname
-		subCategoryFind.subcategoryname =
-			subcategoryname || subCategoryFind.subcategoryname
+		subCategoryFind.category = id || subCategoryFind.category
+		subCategoryFind.subname = subname || subCategoryFind.subname
 
 		const updatedCategory = await subCategoryFind.save()
 
