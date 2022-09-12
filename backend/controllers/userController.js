@@ -5,7 +5,7 @@ import User from '../models/userModel.js'
 // @desc    Register a new user
 // @route   POST /api/users
 // @access  Public
-const registerUser = asyncHandler(async () => {
+const registerUser = asyncHandler(async (req, res) => {
 	const {
 		username,
 		name,
@@ -21,12 +21,20 @@ const registerUser = asyncHandler(async () => {
 		$or: [{ username }, { email }, { cellphoneNumber }],
 	})
 
-	if (user) {
+	if (user?.username === username) {
 		res.status(400)
-		throw new Error(
-			`User's username, email, or cellphoneNumber already exists`
-		)
+		throw new Error(`User's username already exists`)
 	}
+	if (user?.email === email) {
+		res.status(400)
+		throw new Error(`User's Email already exists`)
+	}
+
+	if (Number(user?.cellphoneNumber) === Number(cellphoneNumber)) {
+		res.status(400)
+		throw new Error(`User's Cellphonenumber already exists`)
+	}
+
 	const createdUser = await User.create({
 		username,
 		name,
@@ -99,11 +107,29 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
 	const user = await User.findById(req.user._id)
 
+	const userFind = await User.findOne({
+		$or: [{ username }, { email }, { cellphoneNumber }],
+	})
+
+	if (userFind?.username === username) {
+		res.status(400)
+		throw new Error(`User's username already exists`)
+	}
+	if (userFind?.email === email) {
+		res.status(400)
+		throw new Error(`User's Email already exists`)
+	}
+
+	if (Number(userFind?.cellphoneNumber) === Number(cellphoneNumber)) {
+		res.status(400)
+		throw new Error(`User's Cellphonenumber already exists`)
+	}
+
 	if (user) {
-		user.name = req.body.name || user.name
-		user.email = req.body.email || user.email
-		if (req.body.password) {
-			user.password = req.body.password
+		user.name = name || user.name
+		user.email = email || user.email
+		if (password) {
+			user.password = password
 		}
 
 		user.username = username || user.username
@@ -185,7 +211,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @desc    Update a user
 // @route   PUT /api/users
 // @access  Public
-const updateUser = asyncHandler(async () => {
+const updateUser = asyncHandler(async (req, res) => {
 	const {
 		username,
 		name,
@@ -197,44 +223,39 @@ const updateUser = asyncHandler(async () => {
 		profilePicture,
 	} = req.body
 
-	const user = await User.findOne({
+	const userFind = await User.findOne({
 		$or: [{ username }, { email }, { cellphoneNumber }],
 	})
 
-	if (user) {
+	if (userFind?.username === username) {
 		res.status(400)
-		throw new Error(
-			`User's username, email, or cellphoneNumber already exists`
-		)
+		throw new Error(`User's username already exists`)
+	}
+	if (userFind?.email === email) {
+		res.status(400)
+		throw new Error(`User's Email already exists`)
 	}
 
-	const updatingUser = User.findById(req.params.id)
+	if (Number(userFind?.cellphoneNumber) === Number(cellphoneNumber)) {
+		res.status(400)
+		throw new Error(`User's Cellphonenumber already exists`)
+	}
 
-	if (updatingUser) {
-		updatingUser.username = username || updatingUser.username
-		updatingUser.name = name || updatingUser.name
-		updatingUser.email = email || updatingUser.email
-		updatingUser.cellphoneNumber =
-			cellphoneNumber || updatingUser.cellphoneNumber
+	const userEdit = await User.findById(req.params.id)
 
-		updatingUser.password = password || updatingUser.password
-		updatingUser.role = role || updatingUser.role
-		updatingUser.gender = gender || updatingUser.gender
-		updatingUser.profilePicture =
-			profilePicture || updatingUser.profilePicture
+	if (userEdit) {
+		userEdit.username = username || userEdit.username
+		userEdit.name = name || userEdit.name
+		userEdit.email = email || userEdit.email
+		userEdit.cellphoneNumber = cellphoneNumber || userEdit.cellphoneNumber
+		userEdit.password = password || userEdit.password
+		userEdit.role = role || userEdit.role
+		userEdit.gender = gender || userEdit.gender
+		userEdit.profilePicture = profilePicture || userEdit.profilePicture
 
-		const updatedUser = await updatingUser.save()
+		const updatedUser = await userEdit.save()
 
-		res.json({
-			_id: updatedUser._id,
-			username: updatedUser.username,
-			name: updatedUser.name,
-			email: updatedUser.email,
-			cellphoneNumber: updatedUser.cellphoneNumber,
-			role: updatedUser.role,
-			gender: updatedUser.gender,
-			profilePicture: updatedUser.profilePicture,
-		})
+		res.json(updatedUser)
 	} else {
 		res.status(404)
 		throw new Error('User not found')
