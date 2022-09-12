@@ -5,6 +5,7 @@ import colors from 'colors'
 import users from './data/users.js'
 import roles from './data/roles.js'
 import categories from './data/categories.js'
+import subcategories from './data/subcategories.js'
 import products from './data/products.js'
 import User from './models/userModel.js'
 import Role from './models/roleModel.js'
@@ -23,7 +24,15 @@ const importData = async () => {
 		await SubCategory.deleteMany()
 		await User.deleteMany()
 
-		await Category.insertMany(categories)
+		const createdCategory = await Category.insertMany(categories)
+
+		const subCategory = createdCategory[0].id
+
+		const subCategoryData = subcategories.map(subcategory => {
+			return { ...subcategory, categoryid: subCategory }
+		})
+
+		await SubCategory.insertMany(subCategoryData)
 
 		const createdRoles = await Role.insertMany(roles)
 
@@ -32,8 +41,6 @@ const importData = async () => {
 		const userAccess = users.map(user => {
 			return { ...user, role: roleAccess }
 		})
-
-		console.log('Created User', userAccess)
 
 		const createdUsers = await User.insertMany(userAccess)
 

@@ -1,4 +1,3 @@
-import { json } from 'express'
 import asyncHandler from 'express-async-handler'
 import Category from '../models/categoryModel.js'
 import SubCategory from '../models/subCategoryModel.js'
@@ -29,9 +28,9 @@ const getCategory = asyncHandler(async (req, res) => {
 // @route Post /api/categories
 // @access Private/Super Admin || Admin
 const createCategory = asyncHandler(async (req, res) => {
-	const { categoryname } = req.body
+	const { name } = req.body
 
-	const categoryExists = await Category.findOne({ categoryname }).populate(
+	const categoryExists = await Category.findOne({ name }).populate(
 		'subcategory'
 	)
 
@@ -41,13 +40,13 @@ const createCategory = asyncHandler(async (req, res) => {
 	}
 
 	const category = await Category.create({
-		categoryname,
+		name,
 	})
 
 	if (category) {
 		res.status(201).json({
 			_id: category._id,
-			categoryname: category.categoryname,
+			name: category.name,
 		})
 	} else {
 		res.status(400)
@@ -61,10 +60,10 @@ const createCategory = asyncHandler(async (req, res) => {
 const updateCategory = asyncHandler(async (req, res) => {
 	const category = await Category.findById(req.params.id)
 
-	const { categoryname } = req.body
+	const { name } = req.body
 
 	if (category) {
-		category.categoryname = categoryname || category.categoryname
+		category.name = name || category.name
 
 		const updatedCategory = await category.save()
 
@@ -118,28 +117,27 @@ const getSubCategory = asyncHandler(async (req, res) => {
 // @route Post /api/categories
 // @access Private/Super Admin || Admin
 const createSubCategory = asyncHandler(async (req, res) => {
-	const { subcategoryname, categoryname } = req.body
+	const { subname, categoryid } = req.body
 
 	const subCategoryExists = await SubCategory.findOne({
-		subcategoryname,
+		subname,
 	}).populate('categoryname')
-
-	const name = await Category.findOne({})
 
 	if (subCategoryExists) {
 		res.status(400)
 		throw new Error('SubCategory already exists')
 	}
 
+	const id = await Category.findOne({
+		_id: categoryid,
+	}).exec()
+
 	const subCategory = new SubCategory({
-		categoryname: categoryname,
+		categoryname: id,
 		subcategoryname,
 	})
 
-	return res.json(subCategory)
-	// return res.json(subCategory)
 	const createdSubCategory = await subCategory.save()
-	return res.json(createdSubCategory)
 
 	if (createdSubCategory) {
 		res.status(201).json({

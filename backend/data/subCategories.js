@@ -1,46 +1,18 @@
 import mongoose from 'mongoose'
 
-const subCategories = [
+const subcategories = [
 	{
-		subcategoryname: `Sub Accessories`,
-		categoryname: 1,
+		subname: `Sub Audio`,
+		categoryid: mongoose.Types.ObjectId('631ed899b02744aa030d2c1d'),
 	},
-	// {
-	// 	name: `Sub Men's Apparel`,
-	// 	category: {
-	// 		type: mongoose.Schema.Types.ObjectId,
-	// 		ref: 'Category',
-	// 	},
-	// },
-	// {
-	// 	name: `Sub Mobiles & Gadgets`,
-	// 	category: {
-	// 		type: mongoose.Schema.Types.ObjectId,
-	// 		ref: 'Category',
-	// 	},
-	// },
-	// {
-	// 	name: `Sub Mobiles Accessories`,
-	// 	category: {
-	// 		type: mongoose.Schema.Types.ObjectId,
-	// 		ref: 'Category',
-	// 	},
-	// },
-	// {
-	// 	name: `Sub Home Entertainment`,
-	// 	category: {
-	// 		type: mongoose.Schema.Types.ObjectId,
-
-	// 		ref: 'Category',
-	// 	},
-	// },
-	// {
-	// 	name: `Sub Gadgets`,
-	// 	category: {
-	// 		type: mongoose.Schema.Types.ObjectId,
-	// 		ref: 'Category',
-	// 	},
-	// },
+	{
+		subname: `Sub Men's Apparel`,
+		categoryid: mongoose.Types.ObjectId('631ed899b02744aa030d2c1f'),
+	},
+	{
+		subname: `Sub Mobiles & Gadgets`,
+		categoryid: mongoose.Types.ObjectId('631ed899b02744aa030d2c1f'),
+	},
 ]
 
-export default subCategories
+export default subcategories

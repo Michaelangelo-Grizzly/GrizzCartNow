@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+
 const products = [
 	{
 		name: 'Airpods Wireless Bluetooth Headphones',
@@ -6,8 +7,8 @@ const products = [
 		description:
 			'Bluetooth technology lets you connect it with compatible devices wireless.',
 		brand: 'Apple',
-		categoryname: 'Accessories',
-		subcategoryname: 'Sub Accessories',
+		categoryid: mongoose.Types.ObjectId('631ed7ee061435d005992aba'),
+		subcategoryid: mongoose.Types.ObjectId('631ed7ee061435d005992aba'),
 		price: 89.99,
 		countInStock: 2,
 		rating: 4.5,
@@ -18,8 +19,8 @@ const products = [
 		image: '/images/phone.jpg',
 		description: 'Introducing the iPhone 12 Pro.',
 		brand: 'Apple',
-		categoryname: 'Gadgets',
-		subcategoryname: 'Sub Gadgets',
+		categoryid: mongoose.Types.ObjectId('631ed7ee061435d005992aba'),
+		subcategoryid: mongoose.Types.ObjectId('631ed7ee061435d005992aba'),
 		price: 89.99,
 		countInStock: 2,
 		rating: 4.5,
@@ -31,8 +32,8 @@ const products = [
 		description:
 			'Characterized by versatile imaging specs, the Canon EOS 80D',
 		brand: 'Sony',
-		categoryname: 'Camera',
-		subcategoryname: 'Sub Camera',
+		categoryid: mongoose.Types.ObjectId('631ed7ee061435d005992aba'),
+		subcategoryid: mongoose.Types.ObjectId('631ed7ee061435d005992aba'),
 		price: 89.99,
 		countInStock: 2,
 		rating: 4.5,

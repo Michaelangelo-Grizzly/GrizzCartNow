@@ -38,13 +38,13 @@ const productSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		categoryname: {
-			type: mongoose.Schema.Types.String,
+		categoryid: {
+			type: mongoose.Schema.Types.ObjectId,
 			required: true,
 			ref: 'Category',
 		},
-		subcategoryname: {
-			type: mongoose.Schema.Types.String,
+		subcategoryid: {
+			type: mongoose.Schema.Types.ObjectId,
 			ref: 'SubCategory',
 		},
 		description: {

@@ -1,84 +1,84 @@
 const categories = [
 	{
-		categoryname: `Audio`,
+		name: `Audio`,
 	},
 	{
-		categoryname: `Men's Apparel`,
+		name: `Men's Apparel`,
 	},
 	{
-		categoryname: `Mobiles & Gadgets`,
+		name: `Mobiles & Gadgets`,
 	},
 	{
-		categoryname: `Mobiles Accessories`,
+		name: `Mobiles Accessories`,
 	},
 	{
-		categoryname: `Home Entertainment`,
+		name: `Home Entertainment`,
 	},
 	{
-		categoryname: `Babies & Kids`,
+		name: `Babies & Kids`,
 	},
 	{
-		categoryname: `Home & Living`,
+		name: `Home & Living`,
 	},
 	{
-		categoryname: `Groceries`,
+		name: `Groceries`,
 	},
 	{
-		categoryname: `Toys, Games, & Collectibles`,
+		name: `Toys, Games, & Collectibles`,
 	},
 	{
-		categoryname: `Women's Bags`,
+		name: `Women's Bags`,
 	},
 	{
-		categoryname: `Women Accessories`,
+		name: `Women Accessories`,
 	},
 	{
-		categoryname: `Women's Shoes`,
+		name: `Women's Shoes`,
 	},
 	{
-		categoryname: `Hobbies & Stationery`,
+		name: `Hobbies & Stationery`,
 	},
 	{
-		categoryname: `Gaming`,
+		name: `Gaming`,
 	},
 	{
-		categoryname: `Women's Apparel`,
+		name: `Women's Apparel`,
 	},
 	{
-		categoryname: `Health & Personal Care`,
+		name: `Health & Personal Care`,
 	},
 	{
-		categoryname: `Makeup & Fragrances`,
+		name: `Makeup & Fragrances`,
 	},
 	{
-		categoryname: `Home Appliances`,
+		name: `Home Appliances`,
 	},
 	{
-		categoryname: `Laptop & Computers`,
+		name: `Laptop & Computers`,
 	},
 	{
-		categoryname: `Cameras`,
+		name: `Cameras`,
 	},
 	{
-		categoryname: `Sports & Travel`,
+		name: `Sports & Travel`,
 	},
 	{
-		categoryname: `Men's Bag & Accessories`,
+		name: `Men's Bag & Accessories`,
 	},
 	{
-		categoryname: `Men's Shoes`,
+		name: `Men's Shoes`,
 	},
 	{
-		categoryname: `Motors`,
+		name: `Motors`,
 	},
 	{
-		categoryname: `Digital Goods & Vouchers`,
+		name: `Digital Goods & Vouchers`,
 	},
 	{
-		categoryname: `Accessories`,
+		name: `Accessories`,
 	},
 	{
-		categoryname: `Gadgets`,
+		name: `Gadgets`,
 	},
 ]
 
