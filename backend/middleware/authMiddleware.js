@@ -12,12 +12,14 @@ const protect = asyncHandler(async (req, res, next) => {
 		try {
 			token = req.headers.authorization.split(' ')[1]
 
-			const decoded = jwt.verify(token, process.env.JWT_SECRET)
+			const decoded = jwt.verify(token, process.env.JWT_SECRET_TOKEN)
 
-			req.user = await User.findById(decoded.id).select('-password')
+			req.user = await User.findById(decoded.id)
+				.select('-password')
+				.populate('role')
 			next()
 		} catch (error) {
-			onsole.error(error)
+			console.error(error)
 			res.status(401)
 			throw new Error('Not authorized, token failed')
 		}
@@ -28,22 +30,25 @@ const protect = asyncHandler(async (req, res, next) => {
 	}
 })
 
-const superAdmin = (req, res, next) => {
-	if (req.user && req.user.role === 'Super Admin') {
+const isSuperAdmin = async (req, res, next) => {
+	if (req.user && req.user.role.name === 'Super Admin') {
 		next()
 	} else {
-		res.status(401)
-		throw new Error('Not authorized as a Super Admin')
+		return res.status(401).json('Not authorized as a Super Admin')
 	}
 }
 
-const admin = (req, res, next) => {
-	if (req.user && req.user.role === 'Super Admin') {
+const allAdminAccess = async (req, res, next) => {
+	if (
+		req.user &&
+		(req.user.role.name === 'Super Admin' || req.user.role.name === 'Admin')
+	) {
 		next()
 	} else {
-		res.status(401)
-		throw new Error('Not authorized as a Super Admin')
+		return res
+			.status(401)
+			.json('Not authorized as a Super Admin or an Admin')
 	}
 }
 
-export { protect, superAdmin, admin }
+export { protect, allAdminAccess, isSuperAdmin }

@@ -23,6 +23,7 @@ const userSchema = mongoose.Schema({
 	role: {
 		type: mongoose.Schema.Types.ObjectId,
 		requied: true,
+		default: mongoose.Types.ObjectId('631f30819f93cb0837ba8d1d'),
 		ref: 'Role',
 	},
 	gender: {

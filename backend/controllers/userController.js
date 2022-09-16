@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import generateToken from '../utils/generateToken.js'
 import User from '../models/userModel.js'
+import Role from '../models/roleModel.js'
 
 // @desc    Register a new user
 // @route   POST /api/users
@@ -94,6 +95,7 @@ const authUser = asyncHandler(async (req, res) => {
 // @route   PUT /api/users/profile
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.user._id)
 	const {
 		username,
 		name,
@@ -105,42 +107,44 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 		profilePicture,
 	} = req.body
 
-	const user = await User.findById(req.user._id)
-
 	const userFind = await User.findOne({
 		$or: [{ username }, { email }, { cellphoneNumber }],
 	})
 
-	if (userFind?.username === username) {
-		res.status(400)
-		throw new Error(`User's username already exists`)
-	}
-	if (userFind?.email === email) {
-		res.status(400)
-		throw new Error(`User's Email already exists`)
-	}
-
-	if (Number(userFind?.cellphoneNumber) === Number(cellphoneNumber)) {
-		res.status(400)
-		throw new Error(`User's Cellphonenumber already exists`)
-	}
+	const id = await Role.findOne({
+		_id: role,
+	}).exec()
 
 	if (user) {
 		user.name = name || user.name
+		if (userFind?.email === user.email) {
+			res.status(400)
+			throw new Error(`User's Email already exists`)
+		}
+
 		user.email = email || user.email
 		if (password) {
 			user.password = password
 		}
-
+		if (userFind?.username === user.username) {
+			res.status(400)
+			throw new Error(`User's username already exists`)
+		}
 		user.username = username || user.username
 		user.name = name || user.name
 		user.email = email || user.email
+		if (
+			Number(userFind?.cellphoneNumber) === Number(user.cellphoneNumber)
+		) {
+			res.status(400)
+			throw new Error(`User's Cellphonenumber already exists`)
+		}
 		user.cellphoneNumber = cellphoneNumber || user.cellphoneNumber
 
 		if (user.password) {
 			user.password = password
 		}
-		user.role = role || user.role
+		user.role = id || user.role
 		user.gender = gender || user.gender
 		user.profilePicture = profilePicture || user.profilePicture
 
@@ -167,7 +171,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 // @route   GET /api/users
 // @access  Private/Admin
 const getUsers = asyncHandler(async (req, res) => {
-	const users = await User.find({})
+	const users = await User.find({}).populate('role')
 	res.json(users)
 })
 
@@ -189,7 +193,7 @@ const getUserById = asyncHandler(async (req, res) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
-	const user = await User.findById(req.user._id)
+	const user = await User.findById(req.user._id).populate('role')
 
 	if (user) {
 		res.json({
@@ -209,7 +213,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 })
 
 // @desc    Update a user
-// @route   PUT /api/users
+// @route   PUT /api/users/:id
 // @access  Public
 const updateUser = asyncHandler(async (req, res) => {
 	const {
@@ -227,29 +231,35 @@ const updateUser = asyncHandler(async (req, res) => {
 		$or: [{ username }, { email }, { cellphoneNumber }],
 	})
 
-	if (userFind?.username === username) {
-		res.status(400)
-		throw new Error(`User's username already exists`)
-	}
-	if (userFind?.email === email) {
-		res.status(400)
-		throw new Error(`User's Email already exists`)
-	}
-
-	if (Number(userFind?.cellphoneNumber) === Number(cellphoneNumber)) {
-		res.status(400)
-		throw new Error(`User's Cellphonenumber already exists`)
-	}
-
 	const userEdit = await User.findById(req.params.id)
 
+	const id = await Role.findOne({
+		_id: role,
+	}).exec()
+
 	if (userEdit) {
+		if (userFind?.username === userEdit.username) {
+			res.status(400)
+			throw new Error(`User's username already exists`)
+		}
 		userEdit.username = username || userEdit.username
+		if (userFind?.email === userEdit.email) {
+			res.status(400)
+			throw new Error(`User's Email already exists`)
+		}
+
 		userEdit.name = name || userEdit.name
 		userEdit.email = email || userEdit.email
+		if (
+			Number(userFind?.cellphoneNumber) ===
+			Number(userEdit.cellphoneNumber)
+		) {
+			res.status(400)
+			throw new Error(`User's Cellphonenumber already exists`)
+		}
 		userEdit.cellphoneNumber = cellphoneNumber || userEdit.cellphoneNumber
 		userEdit.password = password || userEdit.password
-		userEdit.role = role || userEdit.role
+		userEdit.role = id || userEdit.role
 		userEdit.gender = gender || userEdit.gender
 		userEdit.profilePicture = profilePicture || userEdit.profilePicture
 
