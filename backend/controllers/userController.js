@@ -3,6 +3,32 @@ import generateToken from '../utils/generateToken.js'
 import User from '../models/userModel.js'
 import Role from '../models/roleModel.js'
 
+// @desc    Auth user & get token
+// @route   POST /api/users/login
+// @access  Public
+const authUser = asyncHandler(async (req, res) => {
+	const { email, password } = req.body
+
+	const user = await User.findOne({ email }).populate('role')
+
+	if (user && (await user.matchPassword(password))) {
+		res.json({
+			_id: user._id,
+			username: user.username,
+			name: user.name,
+			email: user.email,
+			cellphoneNumber: user.cellphoneNumber,
+			role: user.role.name,
+			gender: user.gender,
+			profilePicture: user.profilePicture,
+			token: generateToken(user._id),
+		})
+	} else {
+		res.status(401)
+		throw new Error('Invalid email or password')
+	}
+})
+
 // @desc    Register a new user
 // @route   POST /api/users
 // @access  Public
@@ -18,22 +44,16 @@ const registerUser = asyncHandler(async (req, res) => {
 		profilePicture,
 	} = req.body
 
-	const user = await User.findOne({
-		$or: [{ username }, { email }, { cellphoneNumber }],
+	const user = await User.find({
+		$or: [{ email }, { cellphoneNumber }],
 	})
 
-	if (user?.username === username) {
-		res.status(400)
-		throw new Error(`User's username already exists`)
-	}
-	if (user?.email === email) {
-		res.status(400)
-		throw new Error(`User's Email already exists`)
+	if (user.email) {
+		return res.status(400).json(`User's Email already exists`)
 	}
 
-	if (Number(user?.cellphoneNumber) === Number(cellphoneNumber)) {
-		res.status(400)
-		throw new Error(`User's Cellphonenumber already exists`)
+	if (Number(user.cellphoneNumber)) {
+		return res.status(400).json(`User's cellphone number already exists`)
 	}
 
 	const createdUser = await User.create({
@@ -62,32 +82,6 @@ const registerUser = asyncHandler(async (req, res) => {
 	} else {
 		res.status(400)
 		throw new Error('Invalid user data')
-	}
-})
-
-// @desc    Auth user & get token
-// @route   POST /api/users/login
-// @access  Public
-const authUser = asyncHandler(async (req, res) => {
-	const { email, password } = req.body
-
-	const user = await User.findOne({ email }).populate('role')
-
-	if (user && (await user.matchPassword(password))) {
-		res.json({
-			_id: user._id,
-			username: user.username,
-			name: user.name,
-			email: user.email,
-			cellphoneNumber: user.cellphoneNumber,
-			role: user.role.name,
-			gender: user.gender,
-			profilePicture: user.profilePicture,
-			token: generateToken(user._id),
-		})
-	} else {
-		res.status(401)
-		throw new Error('Invalid email or password')
 	}
 })
 
