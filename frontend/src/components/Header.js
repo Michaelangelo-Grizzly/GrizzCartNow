@@ -197,7 +197,7 @@ const Header = () => {
 								underline="none"
 								to="/register"
 							>
-								REGISTER
+								Register
 							</LinkUi>
 						</Box>
 					</Toolbar>
