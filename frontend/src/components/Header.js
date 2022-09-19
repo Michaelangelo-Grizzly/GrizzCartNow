@@ -195,9 +195,9 @@ const Header = () => {
 								sx={{ mx: '15px' }}
 								color="secondary"
 								underline="none"
-								to="/register"
+								to="/login"
 							>
-								Register
+								Sign in
 							</LinkUi>
 						</Box>
 					</Toolbar>
