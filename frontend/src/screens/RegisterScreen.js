@@ -8,6 +8,7 @@ import {
 	IconButton,
 	InputAdornment,
 } from '@mui/material'
+import { IMaskInput } from 'react-imask'
 import MuiAlert from '@mui/material/Alert'
 import CircularProgress from '@mui/material/CircularProgress'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
@@ -23,17 +24,21 @@ const RegisterScreen = () => {
 	const dispatch = useDispatch()
 
 	const [email, setEmail] = useState('')
+	const [cellPhoneNumber, setCellPhoneNumber] = useState('')
 	const [password, setPassword] = useState('')
+	const [confirmPassword, setConfirmPassword] = useState('')
 	const [showPassword, setShowPassword] = useState(false)
+	const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
 	const handleClickShowPassword = () => setShowPassword(!showPassword)
 	const handleMouseDownPassword = () => setShowPassword(!showPassword)
+	const handleClickShowConfirmPassword = () =>
+		setShowConfirmPassword(!showConfirmPassword)
+	const handleMouseDownConfirmPassword = () =>
+		setShowConfirmPassword(!showConfirmPassword)
 
-	const userLogin = useSelector(state => state.userLogin)
-	const { loading, error, userInfo } = userLogin
-
-	console.log('Userifo', userInfo)
-	console.log('Credentials', email, password)
+	const userRegister = useSelector(state => state.userRegister)
+	const { loading, error, userInfo } = userRegister
 
 	const redirect = location.search ? location.search.split('=')[1] : '/'
 
@@ -61,11 +66,18 @@ const RegisterScreen = () => {
 						<h2>Register</h2>
 						<TextField
 							id="outlined-basic"
-							label="Email"
+							label="Input Email"
 							variant="outlined"
 							style={{ margin: 15 }}
 							value={email}
 							onChange={e => setEmail(e.target.value)}
+						/>
+						<IMaskInput
+							mask={Number}
+							value={cellPhoneNumber}
+							style={{ margin: 15, padding: 20 }}
+							onChange={e => setCellPhoneNumber(e.target.value)}
+							placeholder="Cellphone number"
 						/>
 						<TextField
 							label="Password"
@@ -94,24 +106,53 @@ const RegisterScreen = () => {
 								),
 							}}
 						/>
+						<TextField
+							label="Confirm Password"
+							variant="outlined"
+							value={confirmPassword}
+							onChange={e => setConfirmPassword(e.target.value)}
+							type={showConfirmPassword ? 'text' : 'password'}
+							style={{ margin: 15 }}
+							InputProps={{
+								endAdornment: (
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={
+												handleClickShowConfirmPassword
+											}
+											onMouseDown={
+												handleMouseDownConfirmPassword
+											}
+										>
+											{showConfirmPassword ? (
+												<Visibility />
+											) : (
+												<VisibilityOff />
+											)}
+										</IconButton>
+									</InputAdornment>
+								),
+							}}
+						/>
 						<Button
 							type="submit button"
 							variant="contained"
 							fullWidth
 						>
-							Log in
+							Register
 						</Button>
 
 						<Grid style={{ margin: 15 }}>
-							New Customer?
+							Already have an account?
 							<Link
 								to={
 									redirect
-										? `/register?redirect=${redirect}`
-										: `/register`
+										? `/login?redirect=${redirect}`
+										: '/login'
 								}
 							>
-								Register
+								Login
 							</Link>
 						</Grid>
 					</form>
