@@ -9,6 +9,7 @@ const users = [
 		password: bcrypt.hashSync('password', 10),
 		role: 1,
 		cellphoneNumber: 123456,
+		gender: 'Male',
 	},
 	{
 		name: 'Grizzly Bear',
@@ -17,6 +18,7 @@ const users = [
 		password: bcrypt.hashSync('password', 10),
 		role: 1,
 		cellphoneNumber: 234567,
+		gender: 'Male',
 	},
 	{
 		name: 'Panda Bear',
@@ -25,6 +27,7 @@ const users = [
 		password: bcrypt.hashSync('password', 10),
 		role: 1,
 		cellphoneNumber: 345678,
+		gender: 'Male',
 	},
 	{
 		name: 'User test',
@@ -33,6 +36,7 @@ const users = [
 		password: bcrypt.hashSync('password', 10),
 		role: 2,
 		cellphoneNumber: 456789,
+		gender: 'Female',
 	},
 ]
 

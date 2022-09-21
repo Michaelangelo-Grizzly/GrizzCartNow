@@ -1,24 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import {
+	Grid,
 	Container,
 	Paper,
-	Checkbox,
-	Grid,
 	TextField,
-	FormControlLabel,
 	Button,
-	FormHelperText,
-	FormControl,
 	IconButton,
-	Input,
-	FilledInput,
-	OutlinedInput,
-	InputLabel,
 	InputAdornment,
 } from '@mui/material'
+import MuiAlert from '@mui/material/Alert'
+import CircularProgress from '@mui/material/CircularProgress'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { register } from '../actions/userActions'
+import { login } from '../actions/userActions'
 
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
@@ -30,36 +24,58 @@ const LoginScreen = () => {
 
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
-	const [values, setValues] = useState('')
 	const [showPassword, setShowPassword] = useState(false)
-	const [checked, setChecked] = React.useState(true)
 
 	const handleClickShowPassword = () => setShowPassword(!showPassword)
 	const handleMouseDownPassword = () => setShowPassword(!showPassword)
 
-	// const userLogin = useSelector(state => state.userLogin)
-	// const { loading, error, userInfo } = userLogin
+	const userLogin = useSelector(state => state.userLogin)
+	const { loading, error, userInfo } = userLogin
+
+	console.log('Userifo', userInfo)
+	console.log('Credentials', email, password)
+
+	const redirect = location.search ? location.search.split('=')[1] : '/'
+
+	const Alert = React.forwardRef(function Alert(props, ref) {
+		return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+	})
+
+	useEffect(() => {
+		if (userInfo) {
+			navigate(redirect)
+		}
+	}, [navigate, userInfo, redirect])
+
+	const submitSignIn = e => {
+		e.preventDefault()
+		dispatch(login(email, password))
+	}
 
 	return (
 		<Container>
 			<div style={{ padding: 30 }}>
 				<Paper>
-					<form className="form">
-						{' '}
+					{error && <Alert severity="error">{error}</Alert>}
+					{loading && <CircularProgress />}
+					<form className="form" onSubmit={submitSignIn}>
 						<h2>Sign in</h2>
 						<TextField
 							id="outlined-basic"
 							label="Email"
 							variant="outlined"
 							style={{ margin: 15 }}
+							value={email}
+							onChange={e => setEmail(e.target.value)}
 						/>
 						<TextField
 							label="Password"
 							variant="outlined"
-							type={showPassword ? 'text' : 'password'} // <-- This is where the magic happens
+							value={password}
+							onChange={e => setPassword(e.target.value)}
+							type={showPassword ? 'text' : 'password'}
 							style={{ margin: 15 }}
 							InputProps={{
-								// <-- This is where the toggle button is added.
 								endAdornment: (
 									<InputAdornment position="end">
 										<IconButton
@@ -79,9 +95,26 @@ const LoginScreen = () => {
 								),
 							}}
 						/>
-						<Button type="button" variant="contained" fullWidth>
+						<Button
+							type="submit button"
+							variant="contained"
+							fullWidth
+						>
 							Log in
 						</Button>
+
+						<Grid style={{ margin: 15 }}>
+							New Customer?
+							<Link
+								to={
+									redirect
+										? `/register?redirect=${redirect}`
+										: `/register`
+								}
+							>
+								Register
+							</Link>
+						</Grid>
 					</form>
 				</Paper>
 			</div>

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Container } from '@mui/material'
 import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen'
+import HomeScreen from './screens/HomeScreen'
 
 import Header from './components/Header'
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
 					<Routes>
 						<Route path="/login" element={<LoginScreen />} />
 						<Route path="/register" element={<RegisterScreen />} />
+						<Route path="/" element={<HomeScreen />} exact />
 					</Routes>
 				</Container>
 			</main>
