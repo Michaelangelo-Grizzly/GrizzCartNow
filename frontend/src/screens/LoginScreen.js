@@ -41,11 +41,11 @@ const LoginScreen = () => {
 		return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 	})
 
-	useEffect(() => {
-		if (userInfo) {
-			navigate(redirect)
-		}
-	}, [navigate, userInfo, redirect])
+	// useEffect(() => {
+	// 	if (!userInfo) {
+	// 		navigate(redirect)
+	// 	}
+	// }, [navigate, userInfo, redirect])
 
 	const submitSignIn = e => {
 		e.preventDefault()

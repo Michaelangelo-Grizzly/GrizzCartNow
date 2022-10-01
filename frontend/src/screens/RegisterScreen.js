@@ -25,10 +25,12 @@ const RegisterScreen = () => {
 
 	const [email, setEmail] = useState('')
 	const [cellPhoneNumber, setCellPhoneNumber] = useState('')
+	console.log('Cellphone', cellPhoneNumber)
 	const [password, setPassword] = useState('')
 	const [confirmPassword, setConfirmPassword] = useState('')
 	const [showPassword, setShowPassword] = useState(false)
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+	const [message, setMessage] = useState(null)
 
 	const handleClickShowPassword = () => setShowPassword(!showPassword)
 	const handleMouseDownPassword = () => setShowPassword(!showPassword)
@@ -46,23 +48,29 @@ const RegisterScreen = () => {
 		return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 	})
 
-	useEffect(() => {
-		if (userInfo) {
-			navigate(redirect)
-		}
-	}, [navigate, userInfo, redirect])
+	// useEffect(() => {
+	// 	if (!userInfo) {
+	// 		navigate(redirect)
+	// 	}
+	// }, [navigate, userInfo, redirect])
 
-	const submitSignIn = e => {
+	const submitRegister = e => {
 		e.preventDefault()
+		if (password !== confirmPassword) {
+			setMessage('Password do not match')
+		} else {
+			dispatch(register(email, cellPhoneNumber, password))
+		}
 	}
 
 	return (
 		<Container>
 			<div style={{ padding: 30 }}>
 				<Paper>
+					{message && <Alert severity="error">{message}</Alert>}
 					{error && <Alert severity="error">{error}</Alert>}
 					{loading && <CircularProgress />}
-					<form className="form" onSubmit={submitSignIn}>
+					<form className="form" onSubmit={submitRegister}>
 						<h2>Register</h2>
 						<TextField
 							id="outlined-basic"
@@ -73,11 +81,12 @@ const RegisterScreen = () => {
 							onChange={e => setEmail(e.target.value)}
 						/>
 						<IMaskInput
-							mask={Number}
-							value={cellPhoneNumber}
+							mask={'00000000000'}
 							style={{ margin: 15, padding: 20 }}
+							value={cellPhoneNumber}
 							onChange={e => setCellPhoneNumber(e.target.value)}
 							placeholder="Cellphone number"
+							size={11}
 						/>
 						<TextField
 							label="Password"
