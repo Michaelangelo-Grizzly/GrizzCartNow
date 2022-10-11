@@ -50,6 +50,7 @@ const LoginScreen = () => {
 	const submitSignIn = e => {
 		e.preventDefault()
 		dispatch(login(email, password))
+		navigate('/')
 	}
 
 	return (

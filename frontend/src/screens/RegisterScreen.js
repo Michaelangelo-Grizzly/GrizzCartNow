@@ -60,6 +60,7 @@ const RegisterScreen = () => {
 			setMessage('Password do not match')
 		} else {
 			dispatch(register(email, cellPhoneNumber, password))
+			navigate('/login')
 		}
 	}
 
