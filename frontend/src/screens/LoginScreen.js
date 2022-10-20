@@ -29,7 +29,7 @@ const LoginScreen = () => {
 	const handleClickShowPassword = () => setShowPassword(!showPassword)
 	const handleMouseDownPassword = () => setShowPassword(!showPassword)
 
-	const userLogin = useSelector(state => state.userLogin)
+	const userLogin = useSelector((state) => state.userLogin)
 	const { loading, error, userInfo } = userLogin
 
 	console.log('Userifo', userInfo)
@@ -47,7 +47,7 @@ const LoginScreen = () => {
 	// 	}
 	// }, [navigate, userInfo, redirect])
 
-	const submitSignIn = e => {
+	const submitSignIn = (e) => {
 		e.preventDefault()
 		dispatch(login(email, password))
 		navigate('/')
@@ -67,13 +67,13 @@ const LoginScreen = () => {
 							variant="outlined"
 							style={{ margin: 15 }}
 							value={email}
-							onChange={e => setEmail(e.target.value)}
+							onChange={(e) => setEmail(e.target.value)}
 						/>
 						<TextField
 							label="Password"
 							variant="outlined"
 							value={password}
-							onChange={e => setPassword(e.target.value)}
+							onChange={(e) => setPassword(e.target.value)}
 							type={showPassword ? 'text' : 'password'}
 							style={{ margin: 15 }}
 							InputProps={{

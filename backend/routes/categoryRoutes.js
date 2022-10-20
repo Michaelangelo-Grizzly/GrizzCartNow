@@ -14,8 +14,7 @@ import {
 } from '../controllers/categoryController.js'
 
 // Category
-router.route('/').get(getCategories)
-router.route('/').post(createCategory)
+router.route('/').get(getCategories).post(createCategory)
 router.route('/:id').get(getCategory).put(updateCategory).delete(deleteCategory)
 
 // Sub Category

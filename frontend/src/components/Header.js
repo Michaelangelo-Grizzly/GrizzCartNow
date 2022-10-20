@@ -12,22 +12,22 @@ import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import StoreMallDirectoryTwoToneIcon from '@mui/icons-material/StoreMallDirectoryTwoTone'
-import { Link as LinkUi } from '@mui/material'
-import { Link } from 'react-router-dom'
+import Link from '@mui/material/Link'
+import { Link as ReactLink } from 'react-router-dom'
 import { logout } from '../actions/userActions'
 
 const Header = () => {
 	const [anchorElUser, setAnchorElUser] = React.useState(null)
 	const dispatch = useDispatch()
 
-	const userLogin = useSelector(state => state.userLogin)
+	const userLogin = useSelector((state) => state.userLogin)
 	const { userInfo } = userLogin
 
 	const logoutHandler = () => {
 		dispatch(logout())
 	}
 
-	const handleUserMenu = event => {
+	const handleUserMenu = (event) => {
 		setAnchorElUser(event.currentTarget)
 	}
 
@@ -47,54 +47,55 @@ const Header = () => {
 							variant="h6"
 							noWrap
 							component="a"
-							href="/"
 							sx={{
 								mr: 2,
 								display: { xs: 'none', md: 'flex' },
-								fontFamily: 'monospace',
+								fontFamily: 'cursive',
 								fontWeight: 700,
 								letterSpacing: '.3rem',
 								color: 'inherit',
 								textDecoration: 'none',
 							}}
 						>
-							GrizzCartNow
+							<Link
+								component={ReactLink}
+								color="inherit"
+								underline="none"
+								to="/"
+							>
+								GrizzCartNow
+							</Link>
 						</Typography>
-
 						<Typography
-							variant="h5"
+							variant="h6"
 							noWrap
 							component="a"
-							href=""
 							sx={{
 								mr: 2,
-								display: { xs: 'flex', md: 'none' },
-								flexGrow: 1,
-								fontFamily: 'monospace',
-								fontWeight: 700,
-								letterSpacing: '.3rem',
+								display: { xs: 'none', md: 'flex' },
+								fontFamily: 'menlo',
+								fontWeight: 150,
+								letterSpacing: '.1rem',
 								color: 'inherit',
 								textDecoration: 'none',
 							}}
 						>
-							LOGO
+							<Link
+								component={ReactLink}
+								color="inherit"
+								underline="none"
+								to="/category"
+							>
+								Category
+							</Link>
 						</Typography>
+
 						<Box
 							sx={{
 								flexGrow: 1,
 								display: { xs: 'none', md: 'flex' },
 							}}
-						>
-							<Button
-								sx={{
-									my: 2,
-									color: 'white',
-									display: 'block',
-								}}
-							>
-								Another Page
-							</Button>
-						</Box>
+						></Box>
 
 						<div>
 							{userInfo ? (
@@ -141,15 +142,15 @@ const Header = () => {
 									</Menu>
 								</>
 							) : (
-								<LinkUi
-									component={Link}
+								<Link
+									component={ReactLink}
 									sx={{ mx: '15px' }}
 									color="secondary"
 									underline="none"
 									to="/login"
 								>
 									Sign in
-								</LinkUi>
+								</Link>
 							)}
 						</div>
 					</Toolbar>
